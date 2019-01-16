@@ -1,0 +1,40 @@
+/*
+Author: L. Voogdt
+License: MIT
+Version: 1.0
+*/
+
+/* Marker setup */
+.awesome-marker {
+  background: url('../images/markers-x.png') no-repeat 0 0;
+  width: 35px;
+  height: 46px;
+  position:absolute;
+  left:0;
+  top:0;
+  display: block;
+  text-align: center;
+}
+
+.awesome-marker-shadow {
+  background: url('../images/markers-shadow.png') no-repeat 0 0;
+  width: 36px;
+  height: 16px;
+}
+
+.awesome-marker i {
+  color: #333;
+  margin-top: 0px;
+  display: inline-block;
+  font-size: 20px;
+  font-weight: normal;
+}
+
+
+/* Marker HTML (begin) */
+.awesome-marker i.marker_html { 
+  font-style: normal; 
+  font-size: 17px; 
+  margin-top: 3px; 
+}
+/* Marker HTML (end) */

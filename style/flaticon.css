@@ -1,0 +1,113 @@
+	/*
+  	Flaticon icon font: Flaticon
+  	Creation date: 15/01/2018 17:51
+  	*/
+
+@font-face {
+  font-family: "Flaticon";
+  src: url("../font/Flaticon.eot");
+  src: url("../font/Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("../font/Flaticon.woff") format("woff"),
+       url("../font/Flaticon.ttf") format("truetype"),
+       url("../font/Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("../font/Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+  font-family: Flaticon;
+  font-style: normal;
+}
+
+.flaticon-eye:before { content: "\f100"; }
+.flaticon-fight:before { content: "\f101"; }
+.flaticon-list:before { content: "\f102"; }
+.flaticon-transformer:before { content: "\f103"; }
+.flaticon-islamic-moon:before { content: "\f104"; }
+.flaticon-rotate:before { content: "\f105"; }
+.flaticon-filter:before { content: "\f106"; }
+.flaticon-murder:before { content: "\f107"; }
+.flaticon-gps:before { content: "\f108"; }
+.flaticon-polygon:before { content: "\f109"; }
+.flaticon-region:before { content: "\f10a"; }
+.flaticon-flash-1:before { content: "\f10b"; }
+.flaticon-move:before { content: "\f10c"; }
+.flaticon-pedistrian:before { content: "\f10d"; }
+.flaticon-police-car:before { content: "\f10e"; }
+.flaticon-security:before { content: "\f10f"; }
+.flaticon-handcuff:before { content: "\f110"; }
+.flaticon-helicopter:before { content: "\f111"; }
+.flaticon-university:before { content: "\f112"; }
+.flaticon-flash-0:before { content: "\f113"; }
+.flaticon-park:before { content: "\f114"; }
+.flaticon-school:before { content: "\f115"; }
+.flaticon-police-car-3:before { content: "\f116"; }
+.flaticon-elections:before { content: "\f117"; }
+.flaticon-gas-station:before { content: "\f118"; }
+.flaticon-buildings:before { content: "\f119"; }
+.flaticon-bazar:before { content: "\f11a"; }
+.flaticon-cursor:before { content: "\f11b"; }
+.flaticon-oil-station:before { content: "\f11c"; }
+.flaticon-ruler:before { content: "\f11d"; }
+.flaticon-police-car-2:before { content: "\f11e"; }
+.flaticon-christmas-tree:before { content: "\f11f"; }
+.flaticon-power:before { content: "\f120"; }
+.flaticon-christmas-tree-1:before { content: "\f121"; }
+.flaticon-transport:before { content: "\f122"; }
+.flaticon-alarm:before { content: "\f123"; }
+.flaticon-video-player:before { content: "\f124"; }
+.flaticon-avatar:before { content: "\f125"; }
+.flaticon-battery-2:before { content: "\f126"; }
+.flaticon-battery-4:before { content: "\f127"; }
+.flaticon-battery-1:before { content: "\f128"; }
+.flaticon-battery-3:before { content: "\f129"; }
+.flaticon-marker:before { content: "\f12a"; }
+.flaticon-square:before { content: "\f12b"; }
+.flaticon-circle:before { content: "\f12c"; }
+.flaticon-editor:before { content: "\f12d"; }
+.flaticon-undefined:before { content: "\f12e"; }
+.flaticon-goverment:before { content: "\f12f"; }
+.flaticon-health:before { content: "\f130"; }
+.flaticon-sniper:before { content: "\f131"; }
+.flaticon-fire:before { content: "\f132"; }
+.flaticon-sos:before { content: "\f133"; }
+.flaticon-theif:before { content: "\f134"; }
+.flaticon-home:before { content: "\f135"; }
+.flaticon-flash-2:before { content: "\f136"; }
+.flaticon-police:before { content: "\f137"; }
+.flaticon-wall-clock:before { content: "\f138"; }
+.flaticon-crash:before { content: "\f139"; }
+.flaticon-closed-road:before { content: "\f13a"; }
+.flaticon-extinguisher:before { content: "\f13b"; }
+.flaticon-security-1:before { content: "\f13c"; }
+.flaticon-parking:before { content: "\f13d"; }
+.flaticon-bomb:before { content: "\f13e"; }
+.flaticon-remove:before { content: "\f13f"; }
+.flaticon-speed:before { content: "\f140"; }
+.flaticon-camera:before { content: "\f141"; }
+.flaticon-no-signal:before { content: "\f142"; }
+.flaticon-camera2:before { content: "\f143"; }
+.flaticon-calendar-clock:before { content: "\f144"; }
+.flaticon-circle-1:before { content: "\f145"; }
+.flaticon-barrier:before { content: "\f146"; }
+.flaticon-battery-0:before { content: "\f147"; }
+.flaticon-battery-5:before { content: "\f148"; }
+.flaticon-alarm1:before { content: "\f149"; }
+.flaticon-search:before { content: "\f14a"; }
+.flaticon-church:before { content: "\f14b"; }
+.flaticon-kindergarten:before { content: "\f14c"; }
+.flaticon-road:before { content: "\f14d"; }
+.flaticon-loading:before { content: "\f14e"; }
+.flaticon-menu:before { content: "\f14f"; }
+.flaticon-diagram:before { content: "\f150"; }
+.flaticon-memorial-1:before { content: "\f151"; }
+.flaticon-car-radar:before { content: "\f152"; }
+.flaticon-speed-radar:before { content: "\f153"; }
