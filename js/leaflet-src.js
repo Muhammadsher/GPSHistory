@@ -4959,7 +4959,7 @@ var Layers = Control.extend({
 	},
 
 	_initLayout: function () {
-		var className = 'leaflet-control-layers',
+		var className = 'leaflet-control-layers init-control',
 		    container = this._container = create$1('div', className),
 		    collapsed = this.options.collapsed;
 

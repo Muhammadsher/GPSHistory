@@ -48,7 +48,7 @@ L.Playback.PlayControl = L.Control.extend({
       },
 
     onAdd : function (map) {
-        this._bigContainer = L.DomUtil.create('div');
+        this._bigContainer = L.DomUtil.create('div', '', document.getElementById('conte'));
         this._container = L.DomUtil.create('div', 'leaflet-control-layers leaflet-control-layers-expanded not-expanding', this._bigContainer);
         this.container1= L.DomUtil.create('div', 'leaflet-control-layers leaflet-control-layers-expanded muslim', this._bigContainer);
         var self = this;

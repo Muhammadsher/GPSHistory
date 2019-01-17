@@ -119,4 +119,13 @@ $(function() {
             playback.setCursor(properties.time.getTime());
         }
     }
+
+    $('.trackes').click(function(event) {
+        $('.leaflet-control-layers-selector').trigger('click');
+        if ($('.trackes').html() == 'GPS Tracks - hide') {
+            $('.trackes').html('GPS Tracks - show');
+        }else{
+            $('.trackes').html('GPS Tracks - hide');
+        }
+    });
 });

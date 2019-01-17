@@ -177,3 +177,18 @@ ul.tree li:last-child:before { border-left:1px solid rgb(100,100,100); }
 /* Tree View (end) */
 
 .speed-radar > i { margin-top: 4px; }
+
+/*Leaflet PlayControl Start*/
+
+.init-control {display: none !important;}
+
+/*Leaflet PlayControl End*/
+
+
+/*PlayControl Sidebar footer Start*/
+
+#controllers {position: absolute; right: 0; left: 0; bottom: 0; padding: 10px;}
+#play-controller {background-color: white; color: black; border: 2px solid #4CAF50; padding: 10px; }
+.bl-none { border-left: none !important;}
+
+/*PlayControl Sidebar footer End*/

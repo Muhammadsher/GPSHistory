@@ -796,17 +796,22 @@ L.Playback.PlayControl = L.Control.extend({
     },
 
     onAdd : function (map) {
-        this._container = L.DomUtil.create('div', 'leaflet-control-layers leaflet-control-layers-expanded');
+        this._container = L.DomUtil.create('div', 'leaflet-control-layers leaflet-control-layers-expanded init-control');
 
         var self = this;
         var playback = this.playback;
         playback.setSpeed(100);
 
-        var playControl = L.DomUtil.create('div', 'playControl', this._container);
+        /*Changed*/
 
+        /*var playControl = L.DomUtil.create('div', 'playControl', this._container);
 
         this._button = L.DomUtil.create('button', '', playControl);
         this._button.innerHTML = 'Play';
+
+        console.log(this._button);*/
+
+        this._button = document.getElementById('play-controller');
 
 
         var stop = L.DomEvent.stopPropagation;
