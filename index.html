@@ -26,7 +26,7 @@
                             			<input type="checkbox" id="main">
                             		</label>
                             	</th>
-                                <th>Чақтирув</th>
+                                <th>Чақирув</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -54,10 +54,15 @@
                 </div>
             </div>
             <div class="sidebar-footer">
+                <div id="dataControllers">
+                    <input type="text" class="dataTime" id="from-date">
+                    <input type="text" class="dataTime" id="to-date">
+                </div>
                 <div id="controllers">
                     <div class="playControl" style="text-align: center;">
-                        <button id="play-controller">Play</button><button id="play-controller" class="trackes bl-none">GPS Tracks - show</button>
-                        <button id="play-controller">Spd</button><button id="play-controller" class="bl-none">1x</button><button id="play-controller" class="bl-none">2x</button><button id="play-controller" class="bl-none">3x</button>
+                        <button id="play-controller" class="play-controller"><i class="flaticon flaticon-play"></i></button><button class="trackes play-controller bl-none"><i class="flaticon flaticon-eye-closed"></i> GPS Tracks</button>
+                        <button class="forward play-controller"><i class="flaticon flaticon-forward"></i></button><button id="1x" class="play-controller bl-none">1x</button><button id="2x" class="play-controller bl-none">2x</button><button id="3x" class="play-controller bl-none">3x</button>
+                        <button class="play-controller" style="margin-left: 3px;"><i class="flaticon flaticon-search"></i></button>
                     </div>
                 </div>
             </div>

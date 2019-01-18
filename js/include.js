@@ -6,6 +6,9 @@
 		"leaflet.awesome-markers.js",
 		"leaflet.label.js",
 		"leaflet-realtime.js",
+		"moment.js",
+		"bootstrap.js",
+		"bootstrap-datetimepicker.js",
 		"map.js",
 		"vis.min.js",
 		"playback/Util.js",
@@ -25,6 +28,8 @@
 		"leaflet.css",
 		"leaflet.awesome-markers.css",
 		"leaflet.label.css",
+		"bootstrap.css",
+		"bootstrap-datetimepicker.css",
 		"flaticon.css",
 		"fizmasoft.css",
 		"vis.min.css"
