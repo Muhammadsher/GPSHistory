@@ -11,15 +11,16 @@
 		"bootstrap-datetimepicker.js",
 		"map.js",
 		"vis.min.js",
-		"playback/Util.js",
-		"playback/MoveableMarker.js",
-		"playback/Track.js",
-		"playback/TrackController.js",
-		"playback/Clock.js",
-		"playback/TracksLayer.js",
-		"playback/Control.js",
+		/*"playback/Util.js",*/
+		/*"playback/MoveableMarker.js",*/
+		/*"playback/Track.js",*/
+		/*"playback/TrackController.js",*/
+		/*"playback/Clock.js",*/
+		/*"playback/TracksLayer.js",*/
+		/*"playback/Control.js",*/
 		"playback/leafletPlayback.js",
 		"demoTracks.js",
+		"custom.js",
 		"worker.js"
 	];
 	

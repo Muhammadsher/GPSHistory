@@ -687,7 +687,7 @@
             return this._trackController.getEndTime();
         },
 
-        
+
         setTickLen: function(tickLen) {
             this._tickLen = tickLen;
             this.stop();
@@ -837,17 +837,17 @@
             }
 
             function changeSpeed1x() {
-                playback.setTickLen(500); 
+                playback.setTickLen(500);
                 self._button.innerHTML = '<i class="flaticon flaticon-pause"></i>';
             }
 
             function changeSpeed2x() {
-                playback.setTickLen(1000); 
+                playback.setTickLen(1000);
                 self._button.innerHTML = '<i class="flaticon flaticon-pause"></i>';
             }
 
             function changeSpeed3x() {
-                playback.setTickLen(2000); 
+                playback.setTickLen(2000);
                 self._button.innerHTML = '<i class="flaticon flaticon-pause"></i>';
             }
 

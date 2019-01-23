@@ -15,7 +15,7 @@ div.scroll::-webkit-scrollbar-corner{background:none;}
 div#map {width: calc(100% - 400px); height: calc(100% - 130px); position: absolute; top: 0; left: 0; box-shadow: 0 0 10px 3px #777;}
 
 div.timeline {text-align: center; position: absolute; bottom: 0; height: 130px; width: calc(100% - 400px); box-shadow: 0 0 10px 3px #777;}
-div.sidebar-footer { position: absolute; left: 0; right: 0; bottom: 0; height: 129px; box-shadow: 0 0 10px 3px #777;}
+div.sidebar-footer { position: absolute; left: 0; right: 0; bottom: 0; height: 128px; box-shadow: 0 0 10px 3px #777;}
 .odd_table { background-color: #ddd; }
 .cursor_pointer { cursor: pointer; }
 
@@ -94,7 +94,7 @@ div#notification > div.alert.alert-none {color: #8c8c8c; background-color: #f6f6
 /* Popup (end) */
 
 /* Accordion (begin) */
-div#accordion { margin: 10px; }
+div#accordion { margin: 10px; height: calc(100% - 197px); }
 div#accordion > h3 { background-color: #151515; border: 1px solid #000; }
 div#accordion > h3 > a { color:#fff; }
 div#accordion > h3 > u { position: absolute; right: 10px; color:#fff; text-decoration: none;}
@@ -104,7 +104,7 @@ div#accordion > h3:focus { outline: none; }
 div#accordion > div { border-color: #0f7763; padding: 10px; max-height: 300px; }
 div#accordion > div table.accordion_table { border-radius: 5px; border: 1px solid #000; width: 100%; border-spacing: 0; }
 div#accordion > div table.accordion_table > thead { background-color: #151515; color: #fff;}
-div#accordion > div table.accordion_table > thead > tr > th { padding: 5px; border-right: 2px solid #fff;}
+div#accordion > div table.accordion_table > thead > tr > th { padding: 5px; border-right: 2px solid #fff; text-align: center !important;}
 div#accordion > div table.accordion_table > thead > tr > th:first-child { border-top-left-radius: 3px; padding: 5px; border-right: 2px solid #fff;}
 div#accordion > div table.accordion_table > thead > tr > th:last-child { border-right: 0px; border-top-right-radius: 3px;}
 div#accordion > div table.accordion_table > tbody > tr { cursor: pointer; -webkit-user-select: none; }

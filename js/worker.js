@@ -1,4 +1,7 @@
 $(function() {
+
+    initAccordion();
+
     // Get start/end times
     var startTime = new Date(demoTracks[0].properties.time[0]);
     var endTime = new Date(demoTracks[0].properties.time[demoTracks[0].properties.time.length - 1]);
@@ -122,34 +125,63 @@ $(function() {
         }
     }
 
-    $('.trackes').click(function(event) {
-        $('.leaflet-control-layers-selector').trigger('click');
-        if ($('.trackes').find('i').hasClass('flaticon-eye-closed')) {
-            $('.trackes').find('i').removeClass('flaticon-eye-closed');
-            $('.trackes').find('i').addClass('flaticon-eye');
-        }else{
-            $('.trackes').find('i').removeClass('flaticon-eye');
-            $('.trackes').find('i').addClass('flaticon-eye-closed');
+});
+
+function initAccordion() {
+    $.ajax({
+        url: 'http://192.168.1.253/api/gh/history/devices',
+        type: 'GET',
+        dataType: 'JSON',
+        success: function(data) {
+            var accordion_table = "";
+            var header = "";
+            var counter = 0;
+            for (var i = 0; i < data.length; i++) {
+                accordion_table += "<td><input type='checkbox' id='ch_"+data[i].gid+"_"+data[i].uid+"'></td>";
+                accordion_table += "<td>" + data[i].display_name + "</td>";
+                accordion_table += "<td>" + data[i].limit_speed + "</td>";
+                accordion_table += "<td><i class='flaticon flaticon-eye'></i></td></tr>";
+
+                if (data.length - 1 == i) {
+                    header = getAccardionHeader(data[i].gid, data[i].gname);
+                    header += accordion_table + "</tbody></table>";
+                    $('#accordion').append(header);
+                    $('.' + data[i].gid).html($(".tb_" + data[i].gname + " tr").length);
+                    $(".tb_" + data[i].gname + " tr:odd").addClass('odd_table');
+                    accordion_table = "";
+                } else if (data[i].gid != data[i + 1].gid) {
+                    header = getAccardionHeader(data[i].gid, data[i].gname);
+                    header += accordion_table + "</tbody></table>";
+                    $('#accordion').append(header);
+                    $('.' + data[i].gid).html($(".tb_" + data[i].gname + " tr").length);
+                    $(".tb_" + data[i].gname + " tr:odd").addClass('odd_table');
+                    accordion_table = "";
+                }
+
+            }
+
+            $("#accordion").accordion({ collapsible: true, active: false });
+            $('input[type=checkbox]').on('change', function (e) {
+                if ($(this).is(':checked')) {
+                    $("[id^="+this.id+"_]").prop('checked', true);
+                }else{
+                    $("[id^="+this.id+"_]").prop('checked', false);
+                }
+            });
+
+        },
+        error: function(xhr) {
+            console.log(xhr);
         }
     });
 
-        var todayM = new Date(new Date().setHours(0, 0, 0, 0));
-        var todayE = new Date(new Date().setHours(23, 59, 59, 59));
+}
 
-        $('#from-date').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
-            defaultDate: todayM
-        });
-        $('#to-date').datetimepicker({
-            useCurrent: false,
-            format: 'YYYY-MM-DD HH:mm:ss',
-            defaultDate: todayE
-        });
+function getAccardionHeader(gid, gname) {
+    var header = "<h3 id='fs_" + gid + "'><a href='#'>" + gname + "</a><u class='" + gid + "'></u></h3>";
+    header += "<div class='scroll'><table class='accordion_table'><thead><tr><th><input type='checkbox' id='ch_" + gid + "'></th><th>Чақирув</th><th>Speed</th><th></th></tr></thead><tbody class='tb_" + gname + "'>";
+    return header;
+}
 
-        $("#from-date").on("dp.change", function (e) {
-            $('#to-date').data("DateTimePicker").minDate(e.date);
-        });
-        $("#to-date").on("dp.change", function (e) {
-            $('#from-date').data("DateTimePicker").maxDate(e.date);
-        });
-});
+
+

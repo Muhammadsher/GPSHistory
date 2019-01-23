@@ -16,43 +16,7 @@
             <div class="header">
                 <span id="GPS">GPS History</span>
             </div>
-            <div id="accordion">
-                <div>
-                    <table class="accordion_table">
-                        <thead>
-                            <tr>
-                            	<th>
-                            		<label>
-                            			<input type="checkbox" id="main">
-                            		</label>
-                            	</th>
-                                <th>Чақирув</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                            	<td>
-                            		<label>
-                            			<input type="checkbox" id="main">
-                            		</label>
-                            	</td>
-                                <td>GPS 1</td>
-                                <td><i class="flaticon flaticon-eye"></i></td>
-                            </tr>
-                            <tr class="odd_table">
-                            	<td>
-                            		<label>
-                            			<input type="checkbox" id="main">
-                            		</label>
-                            	</td>
-                                <td>GPS 2</td>
-                                <td><i class="flaticon flaticon-eye"></i></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <div id="accordion"></div>
             <div class="sidebar-footer">
                 <div id="dataControllers">
                     <input type="text" class="dataTime" id="from-date">
@@ -62,7 +26,7 @@
                     <div class="playControl" style="text-align: center;">
                         <button id="play-controller" class="play-controller"><i class="flaticon flaticon-play"></i></button><button class="trackes play-controller bl-none"><i class="flaticon flaticon-eye-closed"></i> GPS Tracks</button>
                         <button class="forward play-controller"><i class="flaticon flaticon-forward"></i></button><button id="1x" class="play-controller bl-none">1x</button><button id="2x" class="play-controller bl-none">2x</button><button id="3x" class="play-controller bl-none">3x</button>
-                        <button class="play-controller" style="margin-left: 3px;"><i class="flaticon flaticon-search"></i></button>
+                        <button class="play-controller" id="search" style="margin-left: 3px;"><i class="flaticon flaticon-search"></i></button>
                     </div>
                 </div>
             </div>
