@@ -20,8 +20,8 @@
 		/*"playback/Control.js",*/
 		"playback/leafletPlayback.js",
 		"demoTracks.js",
-		"custom.js",
-		"worker.js"
+		"worker.js",
+		"custom.js"
 	];
 	
 	var styles = [

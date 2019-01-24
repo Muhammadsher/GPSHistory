@@ -1,29 +1,88 @@
 $(function() {
-
+    initMap();
     initAccordion();
+});
 
-    // Get start/end times
-    var startTime = new Date(demoTracks[0].properties.time[0]);
-    var endTime = new Date(demoTracks[0].properties.time[demoTracks[0].properties.time.length - 1]);
+function initAccordion() {
+    $.ajax({
+        url: 'http://192.168.1.253/api/gh/history/devices',
+        type: 'GET',
+        dataType: 'JSON',
+        success: function(data) {
+            var accordion_table = "";
+            var header = "";
+            var counter = 0;
+            for (var i = 0; i < data.length; i++) {
+                accordion_table += "<td><input type='checkbox' id='ch_" + data[i].gid + "_" + data[i].uid + "'></td>";
+                accordion_table += "<td>" + data[i].display_name + "</td>";
+                accordion_table += "<td>" + data[i].limit_speed + "</td>";
+                accordion_table += "<td><i class='flaticon flaticon-eye'></i></td></tr>";
 
-    // Create a DataSet with data
-    var timelineData = new vis.DataSet([{ start: startTime, end: endTime, content: 'Demo GPS Tracks' }]);
+                if (data.length - 1 == i) {
+                    header = getAccardionHeader(data[i].gid, data[i].gname);
+                    header += accordion_table + "</tbody></table>";
+                    $('#accordion').append(header);
+                    $('.' + data[i].gid).html($(".tb_" + data[i].gname + " tr").length);
+                    $(".tb_" + data[i].gname + " tr:odd").addClass('odd_table');
+                    accordion_table = "";
+                } else if (data[i].gid != data[i + 1].gid) {
+                    header = getAccardionHeader(data[i].gid, data[i].gname);
+                    header += accordion_table + "</tbody></table>";
+                    $('#accordion').append(header);
+                    $('.' + data[i].gid).html($(".tb_" + data[i].gname + " tr").length);
+                    $(".tb_" + data[i].gname + " tr:odd").addClass('odd_table');
+                    accordion_table = "";
+                }
 
-    // Set timeline options
-    var timelineOptions = {
-        "width": "100%",
-        "height": "130px",
-        "style": "box",
-        "axisOnTop": true,
-        "showCustomTime": true
-    };
+            }
 
-    // Setup timeline
-    var timeline = new vis.Timeline(document.getElementById('visualization'), timelineData, timelineOptions);
+            $("#accordion").accordion({ collapsible: true, active: false });
+            $('input[type=checkbox]').on('change', function(e) {
+                if ($(this).is(':checked')) {
+                    $("[id^=" + this.id + "_]").prop('checked', true);
+                } else {
+                    $("[id^=" + this.id + "_]").prop('checked', false);
+                }
+            });
 
-    // Set custom time marker (blue)
-    timeline.setCustomTime(startTime);
+            $('.menu_search').keyup(function(event) {
+                if (event.keyCode === 27 || $(this).find('input').val() == "") {
+                    $(this).find('input').val("");
+                    $(this).next().find('tr').show();
+                    $(this).next().find('tr').removeClass('odd_table');
+                    $(this).next().find('tr:gt(0):odd').addClass('odd_table');
+                } else {
+                    $(this).next().find('tr').show();
+                    search(this);
+                }
+            });
 
+        },
+        error: function(xhr) {
+            console.log(xhr);
+        }
+    });
+
+}
+
+function getAccardionHeader(gid, gname) {
+    var header = "<h3 id='fs_" + gid + "'><a href='#'>" + gname + "</a><u class='" + gid + "'></u></h3>";
+    header += "<div class='scroll'><div class='menu_search'><i class='flaticon-search'></i><input type='text' placeholder='Қидирув...'></div><table class='accordion_table'><thead><tr><th><input type='checkbox' id='ch_" + gid + "'></th><th>Чақирув</th><th>Speed</th><th></th></tr></thead><tbody class='tb_" + gname + "'>";
+    return header;
+}
+
+function search(that) {
+    var input = $(that).find('input').val().toUpperCase();
+    $(that).next().find('tr').removeClass('odd_table');
+    $(that).next().find('tr td:nth-child(2)').each(function(index, el) {
+        if (el.innerHTML.toUpperCase().indexOf(input) == -1) {
+            $(el).parent().hide();
+        }
+    });
+    $(that).next().find('tr:gt(0):visible:odd').addClass('odd_table');
+}
+
+function initMap() {
     // Setup leaflet map
     var map, fsconfig, defView = [39.6724, 66.9555],
         defZoom = 13,
@@ -59,129 +118,5 @@ $(function() {
     }).on("playback:end", function() {
         $('#play-controller').trigger('click');
     });
-
-    // =====================================================
-    // =============== Playback ============================
-    // =====================================================
-
-    // Playback options
-    var playbackOptions = {
-
-        playControl: true,
-        //dateControl: true,
-
-        // layer and marker options
-        layer: {
-            pointToLayer: function(featureData, latlng) {
-                var result = {};
-
-                if (featureData && featureData.properties && featureData.properties.path_options) {
-                    result = featureData.properties.path_options;
-                }
-
-                if (!result.radius) {
-                    result.radius = 5;
-                }
-
-                return new L.CircleMarker(latlng, result);
-            }
-        },
-
-        marker: {
-            getPopup: function(featureData) {
-                var result = '';
-
-                if (featureData && featureData.properties && featureData.properties.title) {
-                    result = featureData.properties.title;
-                }
-
-                return result;
-            }
-        }
-
-    };
-
-    // Initialize playback
-    var playback = new L.Playback(map, null, onPlaybackTimeChange, playbackOptions);
-
-    playback.setData(demoTracks);
-    playback.addData(blueMountain);
-
-    // Uncomment to test data reset;
-    //playback.setData(blueMountain);    
-
-    // Set timeline time change event, so cursor is set after moving custom time (blue)
-    timeline.on('timechange', onCustomTimeChange);
-
-    // A callback so timeline is set after changing playback time
-    function onPlaybackTimeChange(ms) {
-        timeline.setCustomTime(new Date(ms));
-    };
-
-    // 
-    function onCustomTimeChange(properties) {
-        if (!playback.isPlaying()) {
-            playback.setCursor(properties.time.getTime());
-        }
-    }
-
-});
-
-function initAccordion() {
-    $.ajax({
-        url: 'http://192.168.1.253/api/gh/history/devices',
-        type: 'GET',
-        dataType: 'JSON',
-        success: function(data) {
-            var accordion_table = "";
-            var header = "";
-            var counter = 0;
-            for (var i = 0; i < data.length; i++) {
-                accordion_table += "<td><input type='checkbox' id='ch_"+data[i].gid+"_"+data[i].uid+"'></td>";
-                accordion_table += "<td>" + data[i].display_name + "</td>";
-                accordion_table += "<td>" + data[i].limit_speed + "</td>";
-                accordion_table += "<td><i class='flaticon flaticon-eye'></i></td></tr>";
-
-                if (data.length - 1 == i) {
-                    header = getAccardionHeader(data[i].gid, data[i].gname);
-                    header += accordion_table + "</tbody></table>";
-                    $('#accordion').append(header);
-                    $('.' + data[i].gid).html($(".tb_" + data[i].gname + " tr").length);
-                    $(".tb_" + data[i].gname + " tr:odd").addClass('odd_table');
-                    accordion_table = "";
-                } else if (data[i].gid != data[i + 1].gid) {
-                    header = getAccardionHeader(data[i].gid, data[i].gname);
-                    header += accordion_table + "</tbody></table>";
-                    $('#accordion').append(header);
-                    $('.' + data[i].gid).html($(".tb_" + data[i].gname + " tr").length);
-                    $(".tb_" + data[i].gname + " tr:odd").addClass('odd_table');
-                    accordion_table = "";
-                }
-
-            }
-
-            $("#accordion").accordion({ collapsible: true, active: false });
-            $('input[type=checkbox]').on('change', function (e) {
-                if ($(this).is(':checked')) {
-                    $("[id^="+this.id+"_]").prop('checked', true);
-                }else{
-                    $("[id^="+this.id+"_]").prop('checked', false);
-                }
-            });
-
-        },
-        error: function(xhr) {
-            console.log(xhr);
-        }
-    });
-
+    window.map = map;
 }
-
-function getAccardionHeader(gid, gname) {
-    var header = "<h3 id='fs_" + gid + "'><a href='#'>" + gname + "</a><u class='" + gid + "'></u></h3>";
-    header += "<div class='scroll'><table class='accordion_table'><thead><tr><th><input type='checkbox' id='ch_" + gid + "'></th><th>Чақирув</th><th>Speed</th><th></th></tr></thead><tbody class='tb_" + gname + "'>";
-    return header;
-}
-
-
-
