@@ -13,7 +13,7 @@ function initAccordion() {
             var header = "";
             var counter = 0;
             for (var i = 0; i < data.length; i++) {
-                accordion_table += "<td><input type='checkbox' id='ch_" + data[i].gid + "_" + data[i].uid + "'></td>";
+                accordion_table += "<td><label class='containerChBox'><input type='checkbox' id='ch_" + data[i].gid + "_" + data[i].uid + "'><span class='checkmark'></span></label></td>";
                 accordion_table += "<td>" + data[i].display_name + "</td>";
                 accordion_table += "<td>" + data[i].limit_speed + "</td>";
                 accordion_table += "<td><i class='flaticon flaticon-eye'></i></td></tr>";
@@ -67,7 +67,7 @@ function initAccordion() {
 
 function getAccardionHeader(gid, gname) {
     var header = "<h3 id='fs_" + gid + "'><a href='#'>" + gname + "</a><u class='" + gid + "'></u></h3>";
-    header += "<div class='scroll'><div class='menu_search'><i class='flaticon-search'></i><input type='text' placeholder='Қидирув...'></div><table class='accordion_table'><thead><tr><th><input type='checkbox' id='ch_" + gid + "'></th><th>Чақирув</th><th>Speed</th><th></th></tr></thead><tbody class='tb_" + gname + "'>";
+    header += "<div class='scroll'><div class='menu_search'><i class='flaticon-search'></i><input type='text' placeholder='Қидирув...'></div><table class='accordion_table'><thead><tr><th><label class='containerChBox'><input type='checkbox' id='ch_" + gid + "'><span class='checkmark'></span></label></th><th>Чақирув</th><th>Speed</th><th></th></tr></thead><tbody class='tb_" + gname + "'>";
     return header;
 }
 

@@ -149,6 +149,7 @@ function setOptions(obj, options) {
 	if (!obj.hasOwnProperty('options')) {
 		obj.options = obj.options ? create(obj.options) : {};
 	}
+
 	for (var i in options) {
 		obj.options[i] = options[i];
 	}
@@ -8641,10 +8642,15 @@ function geometryToLayer(geojson, options) {
 		return pointToLayer ? pointToLayer(geojson, latlng) : new Marker(latlng);
 
 	case 'MultiPoint':
+		for(let i of coords){
+			latlng = _coordsToLatLng(i);
+			layers.push(pointToLayer ? pointToLayer(geojson, latlng) : new Marker(latlng));
+		}
+/*
 		for (i = 0, len = coords.length; i < len; i++) {
 			latlng = _coordsToLatLng(coords[i]);
 			layers.push(pointToLayer ? pointToLayer(geojson, latlng) : new Marker(latlng));
-		}
+		}*/
 		return new FeatureGroup(layers);
 
 	case 'LineString':
@@ -8689,7 +8695,6 @@ function coordsToLatLng(coords) {
 // Can use a custom [`coordsToLatLng`](#geojson-coordstolatlng) function.
 function coordsToLatLngs(coords, levelsDeep, _coordsToLatLng) {
 	var latlngs = [];
-
 	for (var i = 0, len = coords.length, latlng; i < len; i++) {
 		latlng = levelsDeep ?
 			coordsToLatLngs(coords[i], levelsDeep - 1, _coordsToLatLng) :

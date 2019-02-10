@@ -213,7 +213,7 @@
             this._orientIcon = options.orientIcons;
             var previousOrientation;
 
-            var samples = geoJSON.geometry.coordinates;
+            var samples = geoJSON.geometry.coordinates[0];
             var currSample = samples[0];
             var nextSample = samples[1];
 
@@ -551,11 +551,17 @@
         },
 
         tock: function(timestamp, transitionTime) {
-            for (var i = 0, len = this._tracks.length; i < len; i++) {
+            for(let track of this._tracks){
+                var lngLat = track.tick(timestamp);
+                var latLng = new L.LatLng(lngLat[1], lngLat[0]);
+                track.moveMarker(latLng, transitionTime, timestamp);
+            }
+
+            /*for (var i = 0, len = this._tracks.length; i < len; i++) {
                 var lngLat = this._tracks[i].tick(timestamp);
                 var latLng = new L.LatLng(lngLat[1], lngLat[0]);
                 this._tracks[i].moveMarker(latLng, transitionTime, timestamp);
-            }
+            }*/
         },
 
         getStartTime: function() {

@@ -42,21 +42,55 @@ $(function() {
 	    	}
 	    });
 
+        console.log(deviceIds);
+
 	    var from = $('#from-date').val();
 	    var to = $('#to-date').val();
-	    $('#infoText').hide();
-	    initPlayback();
+
+        var json = {
+            date: {
+                start: from,
+                end: to
+            },
+            devices: deviceIds
+        }
+
+        getDbData(json);
+
+/*	    $('#infoText').hide();
+	    initPlayback();*/
 	});
 
 });
 
-function initPlayback() {
+
+function getDbData(json) {
+    console.log(json);
+    $.ajax({
+        url: 'http://192.168.1.253/api/gh/history/devices',
+        type: 'POST',
+        dataType: 'JSON',
+        data: JSON.stringify(json),
+        success:function (data) {
+            console.log(data);
+            $('#infoText').hide();
+            initPlayback(data, json.date.start, json.date.end);
+        },
+        error: function (xhr) {
+            console.log(xhr);
+        }
+    });
+    
+}
+
+
+function initPlayback(data, from, to) {
 	    // Get start/end times
-    var startTime = new Date(demoTracks[0].properties.time[0]);
-    var endTime = new Date(demoTracks[0].properties.time[demoTracks[0].properties.time.length - 1]);
+    var startTime = new Date(from);
+    var endTime = new Date(to);
 
     // Create a DataSet with data
-    var timelineData = new vis.DataSet([{ start: startTime, end: endTime, content: 'Demo GPS Tracks' }]);
+    var timelineData = new vis.DataSet([{ start: startTime, end: endTime, content: 'UzTracking' }]);
 
     // Set timeline options
     var timelineOptions = {
@@ -119,10 +153,10 @@ function initPlayback() {
     // Initialize playback
     var playback = new L.Playback(window.map, null, onPlaybackTimeChange, playbackOptions);
 
-    playback.setData(demoTracks);
-    playback.addData(blueMountain);
-    console.log(demoTracks);
-    console.log(blueMountain);
+    playback.setData(data);
+    //playback.addData(blueMountain);
+    /*console.log(demoTracks);
+    console.log(blueMountain);*/
 
     // Uncomment to test data reset;
     //playback.setData(blueMountain);    
