@@ -97,7 +97,6 @@
 
             this.popupContent = '';
             this.feature = feature;
-
             if (marker_options.getPopup) {
                 this.popupContent = marker_options.getPopup(feature);
             }

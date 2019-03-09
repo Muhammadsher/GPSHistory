@@ -33,59 +33,114 @@ $(function() {
     });
 
     $('#search').click(function(event) {
-	    var deviceIds = [];
-	    $('input[type=checkbox]:checked:visible').each(function(index, el) {
-	    	if ((el.id.match(/_/g) || []).length == 2) {
-		        var lastslashindex = el.id.lastIndexOf('_');
-		        var result= el.id.substring(lastslashindex  + 1);
-		        deviceIds.push(result);
-	    	}
-	    });
 
-        console.log(deviceIds);
+        $('#overlay').show();
 
-	    var from = $('#from-date').val();
-	    var to = $('#to-date').val();
-
-        var json = {
-            date: {
-                start: from,
-                end: to
-            },
-            devices: deviceIds
+        if (window.playback && window.playback.isPlaying()) {
+            // before requesting new data stop running trackers 
+            $("#play-controller").trigger('click');
         }
 
-        getDbData(json);
-
-/*	    $('#infoText').hide();
-	    initPlayback();*/
-	});
+        getDbData(getParametres());
+    
+    });
 
 });
 
+function getSelectedDevices() {
+    var deviceIds = [];
+    $('input[type=checkbox]:checked').each(function(index, el) {
+        if ((el.id.match(/_/g) || []).length == 2) {
+            var lastslashindex = el.id.lastIndexOf('_');
+            var result = el.id.substring(lastslashindex + 1);
+            deviceIds.push(result);
+        }
+    });
+    return deviceIds;
+}
 
-function getDbData(json) {
-    console.log(json);
-    $.ajax({
-        url: 'http://192.168.1.253/api/gh/history/devices',
+function getParametres() {
+    var deviceIds = getSelectedDevices();
+
+    var from = $('#from-date').val();
+    var to = $('#to-date').val();
+
+    var json = {
+        date: {
+            start: from,
+            end: to
+        },
+        devices: deviceIds
+    }
+
+    return json;
+}
+
+$("#export").click(function(event) {
+    $.$.ajax({
+        url: 'http://192.168.1.249/api/gh/history/export',
         type: 'POST',
         dataType: 'JSON',
-        data: JSON.stringify(json),
-        success:function (data) {
+        data: JSON.stringify(getParametres()),
+        success: function(data) {
             console.log(data);
-            $('#infoText').hide();
-            initPlayback(data, json.date.start, json.date.end);
         },
-        error: function (xhr) {
+        error: function(xhr) {
             console.log(xhr);
         }
     });
     
+});
+
+
+function getDbData(json) {
+    $.ajax({
+        url: 'http://192.168.1.249/api/gh/history/devices',
+        type: 'POST',
+        dataType: 'JSON',
+        data: JSON.stringify(json),
+        success: function(data) {
+            if (data.length > 0) {
+                $('#infoText').hide();
+                if (window.playback == undefined) {
+                    initPlayback(data, json.date.start, json.date.end);
+                } else {
+                    window.playback.setData(data);
+                }
+
+                var i = 0;
+                window.map.eachLayer(function(layer) {
+                    if (layer._icon) {
+                        layer.setIcon(L.AwesomeMarkers.icon({
+                            prefix: "flaticon",
+                            icon: data[i].device_icon.icon_name,
+                            iconColor: data[i].device_icon.icon_color,
+                            markerColor: data[i].device_icon.marker_color
+                        }));
+                        i++;
+                    }
+                });
+
+            } else {
+                $('#infoText').html("Ma'lumot yo'q");
+                $('#infoText').show();
+                setTimeout(function() {
+                    $('#infoText').html("Timeline");
+                }, 5000);
+            }
+            $('#overlay').hide();
+        },
+        error: function(xhr) {
+            console.log(xhr);
+            $('#overlay').show();
+        }
+    });
+
 }
 
 
 function initPlayback(data, from, to) {
-	    // Get start/end times
+    // Get start/end times
     var startTime = new Date(from);
     var endTime = new Date(to);
 
@@ -101,17 +156,33 @@ function initPlayback(data, from, to) {
         "showCustomTime": true
     };
 
+    var timeline;
+
+    if ($('#visualization div').hasClass("timeline")) {
+        $('#visualization').empty();
+    }
+
     // Setup timeline
-    var timeline = new vis.Timeline(document.getElementById('visualization'), timelineData, timelineOptions);
+    timeline = new vis.Timeline(document.getElementById('visualization'), timelineData, timelineOptions);
 
     // Set custom time marker (blue)
     timeline.setCustomTime(startTime);
 
 
-
     // =====================================================
     // =============== Playback ============================
     // =====================================================
+
+    /*var greenIcon = L.icon({
+        iconUrl: 'images/markers-2x.png',
+        shadowUrl: 'images/markers-2x.png',
+
+        iconSize:     [38, 95], // size of the icon
+        shadowSize:   [50, 64], // size of the shadow
+        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+        shadowAnchor: [4, 62],  // the same for the shadow
+        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });*/
 
     // Playback options
     var playbackOptions = {
@@ -123,9 +194,8 @@ function initPlayback(data, from, to) {
         layer: {
             pointToLayer: function(featureData, latlng) {
                 var result = {};
-
-                if (featureData && featureData.properties && featureData.properties.path_options) {
-                    result = featureData.properties.path_options;
+                if (featureData && featureData.properties && featureData.properties.path_option) {
+                    result = featureData.properties.path_option;
                 }
 
                 if (!result.radius) {
@@ -133,20 +203,26 @@ function initPlayback(data, from, to) {
                 }
 
                 return new L.CircleMarker(latlng, result);
+            },
+            style: function(featureData) {
+                return {
+                    "color": featureData.properties.path_option.color,
+                    "opacity": 1,
+                }
             }
         },
 
         marker: {
             getPopup: function(featureData) {
                 var result = '';
-
-                if (featureData && featureData.properties && featureData.properties.title) {
-                    result = featureData.properties.title;
+                if (featureData && featureData.properties && featureData.name) {
+                    result = featureData.name;
                 }
 
                 return result;
             }
-        }
+        },
+        popups: true
 
     };
 
@@ -154,9 +230,13 @@ function initPlayback(data, from, to) {
     var playback = new L.Playback(window.map, null, onPlaybackTimeChange, playbackOptions);
 
     playback.setData(data);
+
+    window.playback = playback;
+
     //playback.addData(blueMountain);
     /*console.log(demoTracks);
     console.log(blueMountain);*/
+
 
     // Uncomment to test data reset;
     //playback.setData(blueMountain);    

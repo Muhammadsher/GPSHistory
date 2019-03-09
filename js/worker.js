@@ -5,7 +5,7 @@ $(function() {
 
 function initAccordion() {
     $.ajax({
-        url: 'http://192.168.1.253/api/gh/history/devices',
+        url: 'http://192.168.1.249/api/gh/history/devices',
         type: 'GET',
         dataType: 'JSON',
         success: function(data) {
@@ -16,7 +16,7 @@ function initAccordion() {
                 accordion_table += "<td><label class='containerChBox'><input type='checkbox' id='ch_" + data[i].gid + "_" + data[i].uid + "'><span class='checkmark'></span></label></td>";
                 accordion_table += "<td>" + data[i].display_name + "</td>";
                 accordion_table += "<td>" + data[i].limit_speed + "</td>";
-                accordion_table += "<td><i class='flaticon flaticon-eye'></i></td></tr>";
+                accordion_table += "<td  onclick='changeZoom("+data[i].uid+")'><i class='flaticon flaticon-eye'></i></td></tr>";
 
                 if (data.length - 1 == i) {
                     header = getAccardionHeader(data[i].gid, data[i].gname);
@@ -119,4 +119,20 @@ function initMap() {
         $('#play-controller').trigger('click');
     });
     window.map = map;
+}
+
+function changeZoom(device_id) {
+    alert(device_id);
+    /*var map = window.m;
+    map.eachLayer(function(layer) {
+        if (layer.popupContent == device_name) {
+            if ($(".checkbox:checked").length + 1 == $(".checkbox").length) {
+                $(".checkbox_main").prop('checked', true);
+            }
+            $("." + device_id + "-id").show();
+            $("#" + device_id).prop('checked', true);
+            layer.openPopup();
+            map.setView(layer._latlng, 17);
+        }
+    });*/
 }
