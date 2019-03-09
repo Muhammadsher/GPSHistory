@@ -1,7 +1,7 @@
-  /*
-    Flaticon icon font: Flaticon
-    Creation date: 15/01/2018 17:51
-    */
+	/*
+  	Flaticon icon font: Flaticon
+  	Creation date: 15/01/2018 17:51
+  	*/
 
 @font-face {
   font-family: "Flaticon";
@@ -115,3 +115,5 @@
 .flaticon-forward:before { content: "\f155"; }
 .flaticon-pause:before { content: "\f156"; }
 .flaticon-eye-closed:before { content: "\f157"; }
+.flaticon-chevron-arrow-down:before { content: "\f158"; }
+.flaticon-chevron-arrow-up:before { content: "\f159"; }

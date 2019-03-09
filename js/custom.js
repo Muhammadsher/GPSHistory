@@ -42,7 +42,28 @@ $(function() {
         }
 
         getDbData(getParametres());
-    
+
+    });
+
+    $("#export").click(function(event) {
+        $('#overlay').show();
+        $.ajax({
+            url: 'http://192.168.1.249/api/gh/history/export',
+            type: 'POST',
+            dataType: 'JSON',
+            data: JSON.stringify(getParametres()),
+            success: function(data) {
+                console.log(data);
+                window.dbData = data;
+                exportPDF();
+                $('#overlay').hide();
+            },
+            error: function(xhr) {
+                console.log(xhr);
+                $('#overlay').hide();
+            }
+        });
+
     });
 
 });
@@ -75,23 +96,6 @@ function getParametres() {
 
     return json;
 }
-
-$("#export").click(function(event) {
-    $.$.ajax({
-        url: 'http://192.168.1.249/api/gh/history/export',
-        type: 'POST',
-        dataType: 'JSON',
-        data: JSON.stringify(getParametres()),
-        success: function(data) {
-            console.log(data);
-        },
-        error: function(xhr) {
-            console.log(xhr);
-        }
-    });
-    
-});
-
 
 function getDbData(json) {
     $.ajax({
@@ -136,6 +140,17 @@ function getDbData(json) {
         }
     });
 
+}
+
+function exportPDF() {
+    var name = $("#from-date").val().substring(0, 10) + ' ' + $("#to-date").val().substring(0, 10);
+    var funcStr = 'header-footer';
+    var doc = PDF[funcStr]();
+
+    doc.setProperties({
+        title: 'Ҳисобот'
+    });
+    doc.save(name);
 }
 
 

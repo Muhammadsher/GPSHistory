@@ -19,7 +19,10 @@
 		/*"playback/TracksLayer.js",*/
 		/*"playback/Control.js",*/
 		"playback/leafletPlayback.js",
-		"demoTracks.js",
+		"jspdf.min.js",
+		"jspdf.plugin.autotable.js",
+		"PDF.js",
+		/*"demoTracks.js",*/
 		"worker.js",
 		"custom.js"
 	];
