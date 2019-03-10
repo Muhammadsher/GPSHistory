@@ -102,12 +102,12 @@
             }
 
             if (options.popups) {
-                this.bindPopup(this.getPopupContent() + startLatLng.toString());
+                this.bindPopup(this.getPopupContent() /*+ startLatLng.toString()*/);
             }
 
             if (options.labels) {
                 if (this.bindLabel) {
-                    this.bindLabel(this.getPopupContent());
+                    this.bindLabel(options.getLabel(feature), { noHide: true });
                 } else {
                     console.log("Label binding requires leaflet-label (https://github.com/Leaflet/Leaflet.label)");
                 }
@@ -116,7 +116,7 @@
 
         getPopupContent: function() {
             if (this.popupContent !== '') {
-                return '<b>' + this.popupContent + '</b><br/>';
+                return this.popupContent;
             }
 
             return '';
@@ -136,7 +136,7 @@
             }
             this.setLatLng(latLng);
             if (this._popup) {
-                this._popup.setContent(this.getPopupContent() + this._latlng.toString());
+                this._popup.setContent(this.getPopupContent() /*+ this._latlng.toString()*/);
             }
         },
 

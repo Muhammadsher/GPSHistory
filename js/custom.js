@@ -4,10 +4,17 @@ $(function() {
         if ($('.trackes').find('i').hasClass('flaticon-eye-closed')) {
             $('.trackes').find('i').removeClass('flaticon-eye-closed');
             $('.trackes').find('i').addClass('flaticon-eye');
+            $('.trackes').addClass('activeBtn');
         } else {
             $('.trackes').find('i').removeClass('flaticon-eye');
             $('.trackes').find('i').addClass('flaticon-eye-closed');
+            $('.trackes').removeClass('activeBtn');
         }
+    });
+
+    $('#1x,#2x,#3x').click(function(event) {
+        $('#1x,#2x,#3x').removeClass('activeBtnx');
+        $("#"+event.target.id).addClass('activeBtnx');
     });
 
     var todayM = new Date(new Date().setHours(0, 0, 0, 0));
@@ -46,14 +53,14 @@ $(function() {
     });
 
     $("#export").click(function(event) {
+        $("#export").addClass('activeBtn');
         $('#overlay').show();
         $.ajax({
-            url: 'http://192.168.1.249/api/gh/history/export',
+            url: 'lib/history/export',
             type: 'POST',
             dataType: 'JSON',
             data: JSON.stringify(getParametres()),
             success: function(data) {
-                console.log(data);
                 window.dbData = data;
                 exportPDF();
                 $('#overlay').hide();
@@ -61,6 +68,7 @@ $(function() {
             error: function(xhr) {
                 console.log(xhr);
                 $('#overlay').hide();
+                $("#export").removeClass('activeBtn');
             }
         });
 
@@ -99,7 +107,7 @@ function getParametres() {
 
 function getDbData(json) {
     $.ajax({
-        url: 'http://192.168.1.249/api/gh/history/devices',
+        url: 'lib/history/devices',
         type: 'POST',
         dataType: 'JSON',
         data: JSON.stringify(json),
@@ -115,6 +123,7 @@ function getDbData(json) {
                 var i = 0;
                 window.map.eachLayer(function(layer) {
                     if (layer._icon) {
+                        layer._marker_id = "m-"+data[i].device_id; // unique id for each marker
                         layer.setIcon(L.AwesomeMarkers.icon({
                             prefix: "flaticon",
                             icon: data[i].device_icon.icon_name,
@@ -151,6 +160,7 @@ function exportPDF() {
         title: 'Ҳисобот'
     });
     doc.save(name);
+    $("#export").removeClass('activeBtn');
 }
 
 
@@ -168,7 +178,8 @@ function initPlayback(data, from, to) {
         "height": "130px",
         "style": "box",
         "axisOnTop": true,
-        "showCustomTime": true
+        "showCustomTime": true,
+        "showCurrentTime": false
     };
 
     var timeline;
@@ -187,17 +198,6 @@ function initPlayback(data, from, to) {
     // =====================================================
     // =============== Playback ============================
     // =====================================================
-
-    /*var greenIcon = L.icon({
-        iconUrl: 'images/markers-2x.png',
-        shadowUrl: 'images/markers-2x.png',
-
-        iconSize:     [38, 95], // size of the icon
-        shadowSize:   [50, 64], // size of the shadow
-        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-        shadowAnchor: [4, 62],  // the same for the shadow
-        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-    });*/
 
     // Playback options
     var playbackOptions = {
@@ -222,22 +222,36 @@ function initPlayback(data, from, to) {
             style: function(featureData) {
                 return {
                     "color": featureData.properties.path_option.color,
-                    "opacity": 1,
+                    "opacity": 1
                 }
-            }
+            },
+            bindLabel: function(featureData) {
+                return featureData.name
+            },
+            labels: true
         },
 
         marker: {
             getPopup: function(featureData) {
-                var result = '';
-                if (featureData && featureData.properties && featureData.name) {
-                    result = featureData.name;
-                }
+                var data = '<table class="fsPopup" style="width:300px;">';
+                data += '<tr><td colspan="3">' + featureData.name + ' [' + featureData.prop.gname + ']' + '</td></tr>';
+                data += '<tr><td width="160px" class="keys">Позывной:&nbsp;</td><td colspan="2">' + featureData.name + '</td></tr>';
+                data += '<tr><td width="160px" class="keys">Группа:&nbsp;</td><td colspan="2">' + featureData.prop.gname + '</td></tr>';
+                data += '<tr><td width="160px" class="keys">Серийный номер:&nbsp;</td><td colspan="2">' + featureData.prop.device_key + '</td></tr>';
+                /*if ('12' != 'ablsoft') data += '<tr><td width="160px" class="keys">Батарея:&nbsp;</td><td colspan="2">' + 5 + '%</td></tr>';
+                data += '<tr><td width="160px" class="keys">Скорость:&nbsp;</td><td colspan="2">' + 5 + ' км/ч</td></tr>';*/
+                data += '<tr><td width="160px" class="keys">Последнее обновление:&nbsp;</td><td colspan="2">' + featureData.prop.life_time + '</td></tr>';
+                data += '<tr><td width="160px" class="keys">Описание:&nbsp;</td><td colspan="2">' + featureData.prop.description + '</td></tr>';
+                data += '</table>';
 
-                return result;
+                return data;
             }
         },
-        popups: true
+        getLabel: function(featureData) {
+            return featureData.name
+        },
+        popups: true,
+        labels: true
 
     };
 

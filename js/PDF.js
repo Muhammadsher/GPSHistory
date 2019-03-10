@@ -43,8 +43,8 @@ var getColumns = function() {
         { title: "No", dataKey: "no" },
         { title: "Tel", dataKey: "phone_number" },
         { title: "Jami masofa (km)", dataKey: "distance" },
-        { title: "Min date", dataKey: "mindate" },
-        { title: "Max date", dataKey: "maxdate" }
+        { title: "Boshlang'ich harkat vaqti", dataKey: "mindate" },
+        { title: "So'ngi harakat vaqti", dataKey: "maxdate" }
     ];
 };
 

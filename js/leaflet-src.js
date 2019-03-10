@@ -5496,7 +5496,7 @@ var Attribution = Control.extend({
 
 		// @option prefix: String = 'Leaflet'
 		// The HTML text shown before the attributions. Pass `false` to disable.
-		prefix: '<span style="color:#2679ac;" data="fizmasoft"></span>'
+		prefix: '<span style="color:#2679ac;" data="fizmasoft">fizmasoft</span>'
 	},
 
 	initialize: function (options) {
@@ -8027,8 +8027,16 @@ var Polyline = Path.extend({
 		noClip: false
 	},
 
-	initialize: function (latlngs, options) {
+	initialize: function (latlngs, options, feature) {
 		setOptions(this, options);
+		if (options.labels) {
+            if (this.bindLabel) {
+                this.bindLabel(options.bindLabel(feature));
+            } else {
+                console.log("Label binding requires leaflet-label (https://github.com/Leaflet/Leaflet.label)");
+            }
+        }
+
 		this._setLatLngs(latlngs);
 	},
 
@@ -8624,7 +8632,7 @@ var GeoJSON = FeatureGroup.extend({
 // [`pointToLayer`](#geojson-pointtolayer) and/or [`coordsToLatLng`](#geojson-coordstolatlng)
 // functions if provided as options.
 function geometryToLayer(geojson, options) {
-
+ 
 	var geometry = geojson.type === 'Feature' ? geojson.geometry : geojson,
 	    coords = geometry ? geometry.coordinates : null,
 	    layers = [],
@@ -8656,7 +8664,7 @@ function geometryToLayer(geojson, options) {
 	case 'LineString':
 	case 'MultiLineString':
 		latlngs = coordsToLatLngs(coords, geometry.type === 'LineString' ? 0 : 1, _coordsToLatLng);
-		return new Polyline(latlngs, options);
+		return new Polyline(latlngs, options, geojson); // geojson added to bined label
 
 	case 'Polygon':
 	case 'MultiPolygon':

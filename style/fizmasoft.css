@@ -14,6 +14,8 @@ div.scroll::-webkit-scrollbar-thumb:horizontal{border-width:1px;padding:0 0 0 0p
 div.scroll::-webkit-scrollbar-corner{background:none;}
 div#map {width: calc(100% - 400px); height: calc(100% - 130px); position: absolute; top: 0; left: 0; box-shadow: 0 0 10px 3px #777;}
 
+.item.range {text-align: left !important;}
+
 div.timeline {text-align: center; position: absolute; bottom: 0; height: 130px; width: calc(100% - 400px); box-shadow: 0 0 10px 3px #777;}
 div.sidebar-footer { position: absolute; left: 0; right: 0; bottom: 0; height: 128px; box-shadow: 0 0 10px 3px #777;}
 .odd_table { background-color: #ddd; }
@@ -48,6 +50,7 @@ div.sidebar-footer { position: absolute; left: 0; right: 0; bottom: 0; height: 1
   border: 2px solid #97B0F8;
   font-size: smaller;
   padding: 3px;
+  margin-top: -2.5px;
 }
 
 /* Menu (begin) */
@@ -62,6 +65,12 @@ div#fizmasoft > .sidebar > .header > ul { display: inline; position: absolute; r
 div#fizmasoft > .sidebar > .header > ul > li { display: inline; font-weight: normal; font-size: 30px;  padding: 5px 5px 5px 5px; cursor: pointer; }
 div#fizmasoft > .sidebar > .header > ul > li:hover { background-color: #10b292; }
 div#fizmasoft > .sidebar > .header > ul > li.selected { background-color: #10b292; }
+.activeBtn {
+  border: 2px solid #10b292 !important;
+}
+.activeBtnx {
+  background-color: #10b292 !important;
+}
 /* Sidebar (end) */
 
 /* Zoomlabel (begin) */

@@ -5,7 +5,7 @@ $(function() {
 
 function initAccordion() {
     $.ajax({
-        url: 'http://192.168.1.249/api/gh/history/devices',
+        url: 'lib/history/devices',
         type: 'GET',
         dataType: 'JSON',
         success: function(data) {
@@ -122,17 +122,11 @@ function initMap() {
 }
 
 function changeZoom(device_id) {
-    alert(device_id);
-    /*var map = window.m;
+    var map = window.map;
     map.eachLayer(function(layer) {
-        if (layer.popupContent == device_name) {
-            if ($(".checkbox:checked").length + 1 == $(".checkbox").length) {
-                $(".checkbox_main").prop('checked', true);
-            }
-            $("." + device_id + "-id").show();
-            $("#" + device_id).prop('checked', true);
+        if (layer._marker_id == "m-"+device_id) {
             layer.openPopup();
             map.setView(layer._latlng, 17);
         }
-    });*/
+    });
 }
