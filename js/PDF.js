@@ -40,8 +40,8 @@ PDF['header-footer'] = function() {
 
 var getColumns = function() {
     return [
-        { title: "Nomi", dataKey: "no" },
-        { title: "Tel", dataKey: "display_name" },
+        { title: "No", dataKey: "no" },
+        { title: "Nomi", dataKey: "display_name" },
         { title: "Jami masofa (km)", dataKey: "distance" },
         { title: "Boshlang'ich harkat vaqti", dataKey: "mindate" },
         { title: "So'ngi harakat vaqti", dataKey: "maxdate" }
