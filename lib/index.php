@@ -43,7 +43,7 @@ $app->post('/history/export', function() use ($app, $db, $fs) {
 	$data = json_decode($app->request->getBody());
 	$data->devices = implode(", ", $data->devices);
 
-	$db->query("SELECT l.did, d.phone_number, min(date_time) as minDate, max(date_time) as maxDate, (SELECT coalesce(round((gds_length(ST_MakeLine(coordinate)) / 1000)::numeric, 2), 0) as distance from log_data lm WHERE date_time between '{$data->date->start}' AND '{$data->date->end}' AND did = l.did) FROM log_data l INNER JOIN devices d ON l.did = d.uid WHERE date_time between '{$data->date->start}' AND '{$data->date->end}' AND l.did IN ({$data->devices}) GROUP BY l.did, d.phone_number ORDER BY did;");
+	$db->query("SELECT l.did, d.display_name, min(date_time) as minDate, max(date_time) as maxDate, (SELECT coalesce(round((gds_length(ST_MakeLine(coordinate)) / 1000)::numeric, 2), 0) as distance from log_data lm WHERE date_time between '{$data->date->start}' AND '{$data->date->end}' AND did = l.did) FROM log_data l INNER JOIN devices d ON l.did = d.uid WHERE date_time between '{$data->date->start}' AND '{$data->date->end}' AND l.did IN ({$data->devices}) GROUP BY l.did, d.display_name ORDER BY did;");
 
 	$data = $db->fetchAll();
 	$app->response->write(json_encode($data));
